@@ -203,6 +203,7 @@
     <body>
 	<div class = "container">
 	    <h1>Face Similarity Survey</h1>
+            <div>Please do not press the "Back" button at any time while participating in this study or your progress may be lost.</div>
 	    <div class="consent">
 		<h2>California State University, Northridge</h2>
 		<h4>RUI: The Role of Facial Physiognomy in Stereotypic Trait Inference</h4>
