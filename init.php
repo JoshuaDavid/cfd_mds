@@ -7,7 +7,7 @@
     // different and 7 is identical.
     $num_scale_options = 11;
     // How many face pairs participants will compare in a single session.
-    $job_size = 5;
+    $job_size = 50;
     // The number of times each pair of faces will be compared. This is
     // 15 comparisons of face A to face B and also 15 comparisons of 
     // face B to face A.
@@ -16,7 +16,7 @@
     // come from a single IP address.
     $num_comparisons = 15;
     // The cooldown period between faces, in milliseconds.
-    $cooldown = 50;
+    $cooldown = 5000;
     // The confirmation code
     if(strlen($_REQUEST['confirmation']) > 1) {
         $confirmation = $_REQUEST['confirmation'];

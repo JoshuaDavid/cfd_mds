@@ -22,10 +22,10 @@ if(!strlen($_POST['submit'])) {
 	    <br />
 	    <label for="gender">What is your gender?</label>
 	    <br />
-	    <input type="radio" name="gender" id="male" />
+	    <input type="radio" name="gender" value="male" id="male" />
 	    <label for="male">Male</label>
 	    <br />
-	    <input type="radio" name="gender" id="female" />
+	    <input type="radio" name="gender" value="female" id="female" />
 	    <label for="female">Female</label>
 	    <br />
 	    <label for="zipcode">What is your current postal code?</label>
@@ -46,6 +46,12 @@ if(!strlen($_POST['submit'])) {
 <?
 }
 else {
+    // Confirmation    Age    Gender    Postal Code
+    file_put_contents(
+        "./participants.txt",
+        "{$confirmation}\t{$age}\t{$gender}\t{$zipcode}\n",
+        FILE_APPEND
+    );
 ?>
 <script type="text/javascript" />
     window.location = "./debriefing.php?confirmation=<? echo $confirmation; ?>";
