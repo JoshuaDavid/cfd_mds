@@ -1,15 +1,19 @@
 <?
+require "./init.php";
 // Show the consent form, then when they've clicked the checkbox, show the instructions and a link to the study.
-if(!$_POST['consent-checkbox'] === "on") {
+if($_POST['consent-checkbox'] !== "on") {
     // They have not clicked the checkbox to consent, possibly because they're arriving on the page
     // for the first time. Show the consent form.
 ?>
 <html>
     <head>
 	<meta charset="utf-8" />
+        <link rel="stylesheet" type"text/css" href="./cfd_mds.css" />
+	<title><? echo $pageTitle; ?></title>
     </head>
     <body>
 	<form method="post" class="consent">
+            <h1><? echo $pageTitle; ?></h1>
 	    <h2>California State University, Northridge</h2>
 	    <h4>RUI: The Role of Facial Physiognomy in Stereotypic Trait Inference</h4>
 	    <h4>Information Letter and Consent Form – Online Raters page 1 of 1</h4>
@@ -44,5 +48,10 @@ if(!$_POST['consent-checkbox'] === "on") {
 <?
 }
 else {
-    // They have consented. Go to the study itself
+?>
+In order to complete this study, JavaScript must be enabled in your browser. If you are not redirected in the next 5 seconds, please make sure that you have JavaScript enabled.
+<script type="text/javascript">
+    window.location = "./study.php";
+</script>
+<?
 }

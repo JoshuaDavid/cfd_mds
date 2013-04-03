@@ -45,6 +45,7 @@ img.f2 {
     height: 20px;
     background-color: #ccc;
     border: 1px solid #000;
+    margin-top: 1em;
 }
 .progressinner {
     width: 0%;
@@ -55,4 +56,7 @@ img.f2 {
 .spacer {
     width: 200px;
     background-color: #000;
+}
+.code {
+    display: none;
 }

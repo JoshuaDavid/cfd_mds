@@ -1,0 +1,10 @@
+94	84	http://www.csun.edu/~dma/WF-011-002_crop.jpg	http://www.csun.edu/~dma/BM-046-006_crop.jpg	3	5641386043	127.0.0.1	1364975515
+5	139	http://www.csun.edu/~dma/BF-006-017_crop.jpg	http://www.csun.edu/~dma/WM-021-001_crop.jpg	4	5641386043	127.0.0.1	1364975516
+5	139	http://www.csun.edu/~dma/BF-006-017_crop.jpg	http://www.csun.edu/~dma/WM-021-001_crop.jpg	3	5641386043	127.0.0.1	1364975517
+5	139	http://www.csun.edu/~dma/BF-006-017_crop.jpg	http://www.csun.edu/~dma/WM-021-001_crop.jpg	4	5641386043	127.0.0.1	1364975518
+5	139	http://www.csun.edu/~dma/BF-006-017_crop.jpg	http://www.csun.edu/~dma/WM-021-001_crop.jpg	3	5641386043	127.0.0.1	1364975518
+96	33	http://www.csun.edu/~dma/WF-013-003_crop.jpg	http://www.csun.edu/~dma/BF-036-027_crop.jpg	1	4973496251	127.0.0.1	1364975555
+63	30	http://www.csun.edu/~dma/BM-022-022_crop.jpg	http://www.csun.edu/~dma/BF-033-028_crop.jpg	2	4973496251	127.0.0.1	1364975556
+58	124	http://www.csun.edu/~dma/BM-017-021_crop.jpg	http://www.csun.edu/~dma/WM-003-002_crop.jpg	2	4973496251	127.0.0.1	1364975557
+156	91	http://www.csun.edu/~dma/WM-040-022_crop.jpg	http://www.csun.edu/~dma/WF-008-002_crop.jpg	3	4973496251	127.0.0.1	1364975558
+38	45	http://www.csun.edu/~dma/BF-041-001_crop.jpg	http://www.csun.edu/~dma/BF-049-032_crop.jpg	2	4973496251	127.0.0.1	1364975559

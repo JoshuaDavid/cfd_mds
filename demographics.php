@@ -3,7 +3,8 @@ require "./init.php";
 $age = $_POST['age'];
 $gender = $_POST['gender'];
 $zipcode = $_POST['zipcode'];
-$confirmation = $_REQUEST['confirmation'];
+
+if(!strlen($_POST['submit'])) {
 ?>
 <html>
     <head>
@@ -12,7 +13,7 @@ $confirmation = $_REQUEST['confirmation'];
     </head>
     <body>
 	<h1><? echo $pageTitle; ?></h1>
-	<h2>Demographic Information</h2>
+        <h2>Congratulations! You've finished!</h2>
 	<form method="post">
 	    <p style="font-weight: bold;">Please take a moment to answer these brief<? echo $demographicInformationIsOptional ? " optional " : " "; ?>questions. This information is for research purposes only.</p>
 	    <label for="age">What is your age in years?</label>
@@ -27,11 +28,27 @@ $confirmation = $_REQUEST['confirmation'];
 	    <input type="radio" name="gender" id="female" />
 	    <label for="female">Female</label>
 	    <br />
-	    <label for="zipcode">What is your current zipcode?</label>
+	    <label for="zipcode">What is your current postal code?</label>
 	    <br />
 	    <input type="text" name="zipcode" id="zipcode" />
 	    <br />
-	    <button type="submit">Get confirmation code</button>
+	    <button type="submit" name="submit" value="yes" >Get confirmation code</button>
+            <? 
+                if ($demographicInformationIsOptional) {
+            ?>
+            <button type="submit" style="background: #fff; border: 1px solid #ccc;">Get confirmation code without answering</button>
+            <?
+                }
+            ?>
 	</form>
     </body>
 </html>
+<?
+}
+else {
+?>
+<script type="text/javascript" />
+    window.location = "./debriefing.php?confirmation=<? echo $confirmation; ?>";
+</script>
+<?
+}
