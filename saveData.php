@@ -16,7 +16,7 @@
 	$row .= "{$_SERVER['REMOTE_ADDR']}\t";
 	$row .= "{$_SERVER['REQUEST_TIME']}\n";
 	
-	if($completed < $job_size) {
+	if($completed <= $job_size) {
 	    echo "Success:";
 	    echo "Completed {$completed} of {$job_size}";
 	    $data = $row;

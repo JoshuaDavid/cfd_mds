@@ -1,9 +1,14 @@
 <?php
+    require "./init.php";
     $alreadydone = preg_split('[\n]', file_get_contents('datastore.txt'));
     $imagelocations = file_get_contents('imagelocations.txt');
     $faceLocations = preg_split('[\n]', $imagelocations);
     $num_images = sizeof($faceLocations) - 1;
     $num_comparisons = 15;
+    // The number of options on the scale (for example, if the number is 7,
+    // then there will be a scale from 1 to 7 where 1 is completely different
+    // and 7 is identical.
+    $num_scale_options = 11;
     $job_size = 50;
 
     for($a = 0; $a < $num_images; $a++) {
@@ -58,66 +63,7 @@
 <html>
     <head>
 	<title>Face Similarity Survey</title>
-	<style type = "text/css">
-	    h1, h2, h3, h4 {
-		text-align: center;
-		margin: 0 auto;
-	    }
-	    .container {
-		width: 80%;
-		margin: 0 auto;
-		text-align: center;
-		position: relative;
-	    }
-	    .consent {
-		text-align: left;
-	    }
-	    .consent p {
-		text-indent: 4em;
-	    }
-	    .faces {
-		display: block;
-		height: 400px;
-	    }
-	    .center {
-		text-align: center;
-	    }
-	    img {
-		width: 48%;
-		box-shadow: 0px 0px 5px 0px #000;
-		display: none;
-	    }
-	    img.f1 {
-		position: absolute;
-		display: block;
-		left: 1%;
-		max-height: 400px;
-                max-width: 568px;
-	    }
-	    img.f2 {
-		position: absolute;
-		display: block;
-		right: 1%;
-		max-height: 400px;
-                max-width: 568px;
-	    }
-	    .progressbar {
-		width: 100%;
-		height: 20px;
-		background-color: #ccc;
-		border: 1px solid #000;
-	    }
-	    .progressinner {
-		width: 0%;
-		height: 20px;
-		float: left;
-		background-color: #7f7;
-	    }
-	    .spacer {
-		width: 200px;
-		background-color: #000;
-	    }
-	</style>
+        <link rel="stylesheet" type"text/css" href="./cfd_mds.css" />
 	<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script type = "text/javascript">
 	    var imagePairs = <?php echo $pairs; ?>;
@@ -140,7 +86,7 @@
 		showFaces();
 		$('input.similarityButton').click(function() {
 		    nextOk = new Date().getTime() - lastTime > 500 && wasResponse;
-		    if(nextOk) {
+		    if(nextOk && !$(this).attr('disabled')) {
 			str  = '';
 			console.log(imagePairs[currentPair][0]);
 			str += 'f1='+imagePairs[currentPair][0];
@@ -184,6 +130,10 @@
 		    $f2.addClass('f2');
 		    $('.faces').append($f1)
 		    $('.faces').append($f2)
+		    $('.similaritybutton').attr('disabled', 'disabled');
+		    setTimeout(function() {
+			$('.similaritybutton').removeAttr('disabled');
+		    }, 5000);
 		    //$('.faces').height(0.75 * $('#f1_'+imagePairs[currentPair][0]).width());
 		    //Progress bar: not strictly necessary, but who cares.
 		    $('.progressinner').width(Math.floor(100 * currentPair / <? echo $job_size ?>)+'%');
@@ -222,17 +172,18 @@
 		<p>If you have any questions or concerns about this project, you may contact the principal investigator, Debbie Ma, California State University - Northridge, Department of Psychology, 18111 Nordhoff Street, Northridge, CA 91330-8255. You may also contact the principal investigator by phone or email at (818) 677-2901 or Debbie.Ma@csun.edu.</p>
 		<p>If you have any questions about research subjects' rights, or in the event of a research-related injury or concern, you may contact the office of Office of Research and Sponsored Projects, 18111 Nordhoff Street, Northridge, CA 91330-8255. You can also call the Office of Research and Sponsored Projects at (818) 677-2901.</p>
 		<h3>Please check the box and click "proceed" if you agree to participate.</h3>
-		<span class="center">
-		    <label for="consent-checkbox">I agree to the terms of this study</label>
-		    <input type="checkbox" id="consent-checkbox" />
-		</span>
-	    </p>
-	    <p>
-		<span class="center">
-		    <input type="button" id="proceed" value="Proceed to Study" />
-		</span>
-	    </p>
-	</div>
+		<p>
+		    <span class="center">
+			<label for="consent-checkbox">I agree to the terms of this study</label>
+			<input type="checkbox" id="consent-checkbox" />
+		    </span>
+		</p>
+		<p>
+		    <span class="center">
+			<input type="button" id="proceed" value="Proceed to Study" />
+		    </span>
+		</p>
+	    </div>
 	<div class = "faces">
 	    <?
 		
@@ -243,7 +194,7 @@
 	    <p>Please rate these two faces in terms of how different versus similar they are to each other.</p>
 	    <span>Completely Different</span>
             <?            
-                for($i = 1; $i <= 15; $i++) {
+                for($i = 1; $i <= $num_scale_options; $i++) {
                     echo '<input type = "button" class = "similaritybutton" value = "'. $i .'" />';
                 }
             ?>
