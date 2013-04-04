@@ -20,7 +20,7 @@
     // come from a single IP address.
     $num_comparisons = 15;
     // The cooldown period between faces, in milliseconds.
-    $cooldown = 50;
+    $cooldown = 5000;
     // The confirmation code
     if(strlen($_REQUEST['confirmation']) > 1) {
         $confirmation = $_REQUEST['confirmation'];
@@ -32,7 +32,6 @@
         // it, since it's really not worth their time. Codes can be 
         // verified easily by adding the digits and verifying that the 
         // sum is divisible by 10.
-        echo '<h1>Generating code</h1>';
         $s = 0;
         $confirmation = "";
         for($i = 0; $i < 9; $i++) {

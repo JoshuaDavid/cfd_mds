@@ -1,1 +1,1 @@
-confirmation-code	age	gender	postal-code
+confirmation-code	age	gender	postal-code comma-separated-race

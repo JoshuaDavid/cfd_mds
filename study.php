@@ -71,7 +71,7 @@
             <div class = "faces">
             </div>
             <div class = "similaritybuttons">
-                <p>Please rate these two faces in terms of how different versus similar they are to each other.</p>
+                <p>Please rate these two faces in terms of how different versus similar they are to each other in terms of their physical features.</p>
                 <span>Completely Different</span>
                 <?            
                     for($i = 1; $i <= $num_scale_options; $i++) {
