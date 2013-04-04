@@ -44,6 +44,9 @@ function showFaces() {
             .addClass('f2')
             .attr('src', faceLocations[imagePairs[currentPair][1]])
             .appendTo($('.faces'));
+        $('.f2').on('load', function() {
+            $(this).parent().height($(this).height());    
+        });
         $('.similaritybutton').attr('disabled', 'disabled');
         setTimeout(
             function() {
