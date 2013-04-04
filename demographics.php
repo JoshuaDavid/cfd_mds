@@ -48,7 +48,7 @@ if(!strlen($_POST['submit'])) {
 else {
     // Confirmation    Age    Gender    Postal Code
     file_put_contents(
-        "./participants.txt",
+        $participants,
         "{$confirmation}\t{$age}\t{$gender}\t{$zipcode}\n",
         FILE_APPEND
     );

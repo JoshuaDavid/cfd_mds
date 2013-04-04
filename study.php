@@ -1,6 +1,6 @@
 <?php
     require "./init.php";
-    $alreadydone = preg_split('[\n]', file_get_contents('datastore.txt'));
+    $alreadydone = preg_split('[\n]', file_get_contents($datastore));
     $imagelocations = file_get_contents('imagelocations.txt');
     $faceLocations = preg_split('[\n]', $imagelocations);
     $num_images = sizeof($faceLocations) - 1;

@@ -6,6 +6,10 @@
     // then there will be a scale from 1 to 7 where 1 is completely 
     // different and 7 is identical.
     $num_scale_options = 11;
+    // Where the datastore is located.
+    $datastore = "../cfd_mds/datastore.txt";
+    // Where the participants log is located.
+    $participants = "../cfd_mds/participants.txt";
     // How many face pairs participants will compare in a single session.
     $job_size = 50;
     // The number of times each pair of faces will be compared. This is

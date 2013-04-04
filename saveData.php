@@ -1,6 +1,6 @@
 <?
         require "./init.php";
-	$data = file_get_contents('datastore.txt');
+	$data = file_get_contents($datastore);
 	$IP = $_SERVER['REMOTE_ADDR'];
 	$rows = explode("\n", $data);
         // How many pairs the user has done this round
@@ -26,7 +26,7 @@
 	    echo "Success:";
 	    echo "Completed {$completed} of {$job_size}";
 	    $data = $row;
-	    $result = file_put_contents('datastore.txt', $data, FILE_APPEND);
+	    $result = file_put_contents($datastore, $data, FILE_APPEND);
 	    var_dump($result);
 	}
 	else {
