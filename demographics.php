@@ -90,8 +90,8 @@ else {
     );
 ?>
 <script type="text/javascript" />
-    //window.location = "./debriefing.php?confirmation=<? echo $confirmation; ?>";
-    window.location = window.location;
+    window.location = "./debriefing.php?confirmation=<? echo $confirmation; ?>";
+    //window.location = window.location;
 </script>
 <?
 }
