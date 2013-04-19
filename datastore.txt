@@ -1,1 +1,0 @@
-face1	face2	face1url	face2url	similarity	confirmation-code	IP-address	timestamp
