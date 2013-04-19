@@ -20,7 +20,7 @@
     // come from a single IP address.
     $num_comparisons = 15;
     // The cooldown period between faces, in milliseconds.
-    $cooldown = 5000;
+    $cooldown = 50;
     // The confirmation code
     if(strlen($_REQUEST['confirmation']) > 1) {
         $confirmation = $_REQUEST['confirmation'];
