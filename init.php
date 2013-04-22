@@ -21,24 +21,30 @@
     $num_comparisons = 15;
     // The cooldown period between faces, in milliseconds.
     $cooldown = 2000;
+    // The reward amount
+    $reward = "$0.50";
     // The confirmation code
-    if(strlen($_REQUEST['confirmation']) > 1) {
-        $confirmation = $_REQUEST['confirmation'];
-    }
-    else {
-        // Confirmation code. The code is 10 random digits that will add 
-        // to an integer multiple of 10. Since the code looks randomly 
-        // generated, it's likely that people will not attempt to crack 
-        // it, since it's really not worth their time. Codes can be 
-        // verified easily by adding the digits and verifying that the 
-        // sum is divisible by 10.
-        $s = 0;
-        $confirmation = "";
-        for($i = 0; $i < 9; $i++) {
-            $n = mt_rand(0, 9);
-            $s = ($s + $n) %10;
+    $confirmation = getConfirmationCode();
+    function getConfirmationCode() {
+        if(strlen($_REQUEST['confirmation']) > 1) {
+            $confirmation = $_REQUEST['confirmation'];
+        }
+        else {
+            // Confirmation code. The code is 10 random digits that will add 
+            // to an integer multiple of 10. Since the code looks randomly 
+            // generated, it's likely that people will not attempt to crack 
+            // it, since it's really not worth their time. Codes can be 
+            // verified easily by adding the digits and verifying that the 
+            // sum is divisible by 10.
+            $s = 0;
+            $confirmation = "";
+            for($i = 0; $i < 9; $i++) {
+                $n = mt_rand(0, 9);
+                $s = ($s + $n) %10;
+                $confirmation .= $n;
+            }
+            $n = 10 - $s;
             $confirmation .= $n;
         }
-        $n = 10 - $s;
-        $confirmation .= $n;
+        return $confirmation;
     }

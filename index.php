@@ -22,7 +22,7 @@ if($_POST['consent-checkbox'] !== "on") {
 	    <i>Voluntary Participation</i>
 	    <p>Although your participation is greatly valued, you have the right to withdraw your consent and leave the study at any time without prejudice.</p>
 	    <i>Participant Information and Payment</i>
-	    <p>If you choose to participate, you will be shown pictures of individuals and be asked to rate those individuals on a number of dimensions. Your participation should last 5 minutes and will involve approximately 5,000 other participants. In exchange for your complete participation, you will receive $0.50. </p>
+	    <p>If you choose to participate, you will be shown pictures of individuals and be asked to rate those individuals on a number of dimensions. Your participation should last 5 minutes and will involve approximately 5,000 other participants. In exchange for your complete participation, you will receive <? echo $reward; ?>. </p>
 	    <i>Possible Risks and Withdrawing Consent</i>
 	    <p>There are no anticipated risks or benefits of participating in the project.</p>
 	    <i>Release and Use</i>
