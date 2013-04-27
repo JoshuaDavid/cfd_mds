@@ -11,7 +11,8 @@ $(document).ready(function() {
                 'f1url': faceLocations[imagePairs[currentPair][0]],
                 'f2url': faceLocations[imagePairs[currentPair][1]],
                 'similarity': $(this).val(),
-                'confirmation': $('.code').text()
+                'confirmation': $('.code').text(),
+                'completed': currentPair + 1
             }
             console.log("Sending request");
             $.post('saveData.php', request, function(response) {

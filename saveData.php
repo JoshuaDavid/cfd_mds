@@ -1,12 +1,13 @@
 <?
         require "./init.php";
-	$data = file_get_contents($datastore);
+	//$data = file_get_contents($datastore);
 	$IP = $_SERVER['REMOTE_ADDR'];
 	$rows = explode("\n", $data);
         // How many pairs the user has done this round
 	$completed = 1;
         // How many pairs have been done by this IP address
         $completed_by_IP = 1;
+        /*
 	foreach($rows as $r) {
 	    if(preg_match("/" . $_POST['confirmation'] . "/", $r)) {
 		$completed += 1;
@@ -16,6 +17,9 @@
 	    }
 	}
 	$row = "";
+        */
+        $completed = $_POST['completed'];
+        unset($_POST['completed']);
 	foreach($_POST as $p) {
 		$row .= "{$p}\t";
 	}
@@ -30,5 +34,5 @@
 	    var_dump($result);
 	}
 	else {
-	    echo "You have already finished your {$job_size} allotted problems.";    
+	    //echo "You have already finished your {$job_size} allotted problems.";    
 	}
