@@ -16,8 +16,8 @@
 		$completed_by_IP += 1;
 	    }
 	}
-	$row = "";
         */
+	$row = "";
         $completed = $_POST['completed'];
         unset($_POST['completed']);
 	foreach($_POST as $p) {
