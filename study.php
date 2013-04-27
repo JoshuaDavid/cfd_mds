@@ -1,6 +1,6 @@
 <?php
     require "./init.php";
-    $alreadydone = preg_split('[\n]', file_get_contents($datastore));
+    //$alreadydone = preg_split('[\n]', file_get_contents($datastore));
     $imagelocations = file_get_contents('imagelocations.txt');
     $faceLocations = preg_split('[\n]', $imagelocations);
     $num_images = sizeof($faceLocations) - 1;
@@ -14,10 +14,12 @@
 	// We don't want to compare a face to itself
 	$comparisons[$a][$a] = 0;
     }
+    /*
     foreach($alreadydone as $row) {
 	$cols = preg_split("[\t]", $row);
 	$comparisons[$cols[0]][$cols[1]] -= 1;
     }
+    */
     $pairs = '[';
     $num_pairs = 0;
     // More padding means the server will be (slightly) slower, but also
