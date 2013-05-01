@@ -12,7 +12,8 @@
     }
     for($a = 0; $a < $num_images; $a++) {
 	// We don't want to compare a face to itself
-	$comparisons[$a][$a] = 0;
+        // Yes we do.
+        // $comparisons[$a][$a] = 0;
     }
     /*
     foreach($alreadydone as $row) {
