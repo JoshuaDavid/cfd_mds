@@ -69,7 +69,6 @@ function nextFrame(view, images) {
     });
 }
 
-
 function calculateForces(image1, image2, similarity) {
     var distance2 = Math.pow(image2.x - image1.x, 2) + Math.pow(image2.y - image1.y, 2),
         distance = Math.sqrt(distance2),

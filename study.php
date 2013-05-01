@@ -38,7 +38,7 @@
 	    // deterministic strategy.
 	    $a = mt_rand(0, $num_images - 1);
 	    $b = mt_rand(0, $num_images - 1);
-	    if($a !== $b and $comparisons[$a][$b] > 0) {
+            if(/* $a !== $b and */ $comparisons[$a][$b] > 0) {
 		$comparisons[$a][$b]--;
 		$pairs .= '[' . $a . ',' . $b . '],'; 
 		break;
