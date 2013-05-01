@@ -1,5 +1,6 @@
 <?
 include './init.php';
+echo "hi";
 $unsaferawdata = file_get_contents($datastore);
 $unsaferows = explode("\n", $unsaferawdata);
 $originalcolnames = array(
