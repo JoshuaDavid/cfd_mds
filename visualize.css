@@ -88,6 +88,24 @@ canvas.heatmap {
     max-height: 100%;
 }
 
+div.graph {
+    position: relative;    
+}
+
+img.plotpoint {
+    max-height: 30px;
+    max-width: 40px;
+    border: 1px solid black;
+    position: absolute;
+}
+img.plotpoint:hover {
+    max-height: 300px;
+    max-width: 400px;
+    box-shadow: 0px 0px 10px #777;
+    position: absolute;
+    z-index: 1;
+}
+
 @-webkit-keyframes loading {
     0% { -webkit-transform: rotate(0deg); }
     25% { -webkit-transform: rotate(90deg); }

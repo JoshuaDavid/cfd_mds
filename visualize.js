@@ -38,8 +38,8 @@ function initialize(Event) {
     });
     $('#show-general-information').on('click', showGeneralInformation);
     $('#show-similarity-heatmap').on('click', showSimilarityHeatmap);
-    $('#show-classiscal-mds').on('click', showClassicalMDS);
-    console.log('ready');
+    $('#show-classical-mds').on('click', showClassicalMDS);
+    showGeneralInformation();
 }
 
 // Heat Map
@@ -120,7 +120,33 @@ function colorFromSimilarity(similarity) {
 
 // Classical MDS
 function showClassicalMDS() {
-    
+    function getClassicalMDSData() {
+        // Get the data from the python script
+        $.get('./2dlocations.txt')
+            .success(showClassicalMDSData);
+    }
+    function showClassicalMDSData(rawData) {
+        var data = rawData.split('\n').map(function(row) {
+            return _.object(['src', 'x', 'y'], row.split('\t'));    
+        });
+        $('#view').html('<h2>Results of Classical Multidimensional Scaling</h2>');
+        $graph = $('<div/>')
+            .addClass('graph')
+            .width($('#view').width() * 0.8)
+            .height($('#view').width() * 0.8)
+            .appendTo('#view');
+        data.forEach(function(image) {
+            $('<img/>')
+                .attr('src', image['src'].replace(/"/g, ""))
+                .addClass('plotpoint')
+                .css({
+                    'top': $graph.height() / 2 + image['y'] * 100,
+                    'left': $graph.width() / 2 + image['x'] * 100,
+                })
+                .appendTo($graph);
+        });
+    }
+    getClassicalMDSData();
 }
 
 // General Information
