@@ -17,7 +17,6 @@ div#control {
     left: 0%;
     width: 20%;
     height: 100%;
-    border: 1px solid black;
 }
 #control button {
     width: 100%;
@@ -29,7 +28,6 @@ div#view {
     left: 20%;
     width: 60%;
     height: 100%;
-    border: 1px solid black;
 }
 div#data-table {
     position: absolute;
@@ -37,7 +35,6 @@ div#data-table {
     left: 80%;
     width: 20%;
     height: 100%;
-    border: 1px solid black;
 }
 div#general-information {
     display: none;

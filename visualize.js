@@ -2,19 +2,33 @@ $(document)
     .on('ready', loadData)
     .on('load.cfd_mds_data', initialize)
     function loadData() {
-        $.post('./49f7cd18dc64f4c82563f45844202e3fa8b84653.php')
-            .success(parseResponse);
+        password = prompt('password');
+        $.post('./49f7cd18dc64f4c82563f45844202e3fa8b84653.php', {'password': password, 'page': 'datastore'})
+            .success(parseDatastore);
     }
-function parseResponse(response) {
+function parseDatastore(response) {
     function parseRow(row) {
         var cols = row.split('\t');
-        return _.object(['face1_id', 'face2_id', 'face1_url', 'face2_url', 'similarity'], row.split('\t'));
+        return _.object(['face1_id', 'face2_id', 'face1_url', 'face2_url', 'similarity', 'confirmation'], row.split('\t'));
     }
     var rows = $(response).text().split('\n');
+    console.log(rows);
     var cfd_mds_data = rows.map(parseRow);
     var loadEvent = $.Event('load.cfd_mds_data', {'cfd_mds_data': cfd_mds_data});
     $(document).trigger(loadEvent);
+    $.post('./49f7cd18dc64f4c82563f45844202e3fa8b84653.php', {'password': password, 'page': 'participants'})
+        .success(parseParticipants);
+    delete password;
     return cfd_mds_data;
+}
+function parseParticipants(response) {
+    function parseRow(row) {
+        var cols = row.split('\t');
+        return cols;
+    }
+    var rows = $(response).text().split('\n');
+    console.log(rows);
+    var participants = rows.map(parseRow);
 }
 function initialize(Event) {
     // Note that cfd_mds_data is global, as is num_faces
@@ -30,7 +44,8 @@ function initialize(Event) {
         face2_id = row['face2_id'],
         face1_url = row['face1_url'],
         face2_url = row['face2_url'],
-        similarity = row['similarity'];
+        similarity = row['similarity'],
+        confirmation = row['confirmation'];
         if(face1_id >= 0 && face1_id < num_faces && face2_id >= 0 && face2_id < num_faces) {
             faceLocations[face1_id] = face1_url;
             faceLocations[face2_id] = face2_url;
@@ -96,6 +111,7 @@ function showComparisonViewer(face1_url, face2_url) {
         .html('')
         .append($('<img src="'+face1_url+'"/>'))
         .append($('<img src="'+face2_url+'"/>'))
+        .append($('<div>Click to dismiss</div>'))
         .on('click', hideComparisonViewer);
 }
 function hideComparisonViewer() {
@@ -118,6 +134,11 @@ function colorFromSimilarity(similarity) {
     }
 }
 
+// Organized Heat Map
+function showOrderedSimilarityHeatmap() {
+        
+}
+
 // Classical MDS
 function showClassicalMDS() {
     function getClassicalMDSData() {
@@ -126,7 +147,8 @@ function showClassicalMDS() {
             .success(showClassicalMDSData);
     }
     function showClassicalMDSData(rawData) {
-        var data = rawData.split('\n').map(function(row) {
+        var data = rawData.split('\n').map(
+        function(row) {
             return _.object(['src', 'x', 'y'], row.split('\t'));    
         });
         $('#view').html('<h2>Results of Classical Multidimensional Scaling</h2>');
@@ -135,7 +157,8 @@ function showClassicalMDS() {
             .width($('#view').width() * 0.8)
             .height($('#view').width() * 0.8)
             .appendTo('#view');
-        data.forEach(function(image) {
+        data.forEach(
+        function(image) {
             $('<img/>')
                 .attr('src', image['src'].replace(/"/g, ""))
                 .addClass('plotpoint')
@@ -145,6 +168,7 @@ function showClassicalMDS() {
                 })
                 .appendTo($graph);
         });
+    //{
     }
     getClassicalMDSData();
 }

@@ -31,9 +31,13 @@ for y, row in enumerate(difference_matrix):
         difference_matrix[y][x] -= 7
         difference_matrix[y][x] *= -1
 
-positions, eigs = mds.mds(difference_matrix)
+positions2d, eigs2d = mds.mds(difference_matrix, 2)
+positions1d, eigs1d = mds.mds(difference_matrix, 1)
 
-locations = file('2dlocations.txt', 'w+')
-for index, position in enumerate(positions):
-    locations.write('"{0}"\t{1}\t{2}\n'.format(imageLocations[index], position[0], position[1]))
+locations2d = file('2dlocations.txt', 'w+')
+locations1d = file('1dlocations.txt', 'w+')
+for index, position in enumerate(positions2d):
+    locations2d.write('"{0}"\t{1}\t{2}\n'.format(imageLocations[index], position[0], position[1]))
+for index, position in enumerate(positions1d):
+    locations1d.write('"{0}"\t{1}\n'.format(imageLocations[index], position[0]))
 
