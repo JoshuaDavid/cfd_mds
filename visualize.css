@@ -29,7 +29,7 @@ div#view {
     width: 60%;
     height: 100%;
 }
-div#data-table {
+div#filter-data {
     position: absolute;
     top: 0px;
     left: 80%;

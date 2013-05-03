@@ -1,6 +1,5 @@
 import numpy
 import mds
-import pylab
 
 cfd_mds_data = file('../../cfd_mds_data/datastore.txt').read().split('\n')
 

@@ -18,12 +18,35 @@
             <div class="loading icon">
             </div>
         </div>
-        <div id="data-table">
+        <div id="filter-data">
+            <h2>Filter the Data</h2>
+            <label for="filter-participant-race">
+                Filter by Participant Race:
+            </label>
+            <input type="text" id="filter-participant-race"/>
+            <br />
+            <label for="filter-participant-gender">
+                Filter by Participant gender:
+            </label>
+            <input type="text" id="filter-participant-gender"/>
+            <br />
+            <label for="filter-participant-age">
+                Filter by Participant age:
+            </label>
+            <br />
+            <label for="filter-participant-age-min"> Min: </label>
+            <input type="text" id="filter-participant-age-min" size="5"/>
+            <label for="filter-participant-age-max"> Max: </label>
+            <input type="text" id="filter-participant-age-max" size="5"/>
+            <br />
         </div>
         <div id="comparison-viewer"></div>
         <div id="general-information">
             <h2>General Information About Dataset</h2>
             <p>Faces were rated in similarity on a scale of 1 to 7. The average similarity was <span class="average-similarity"></span>.</p>
+            <p><span class="number-of-participants"></span> participants completed this survey, and made <span class="number-of-comparisons"></span> comparisons.</p>
+            <p>Participants were <span class="percent-male"></span>% male and <span class="percent-female"></span>% female. The average age of participants was <span class="average-age"></span>.</p>
+            <a href="./demo.php">See a demo</a>
         </div>
     </body>
 </html>

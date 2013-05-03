@@ -1,6 +1,12 @@
 $(document)
     .on('ready', loadData)
     .on('load.cfd_mds_data', initialize)
+// Globals
+var cfd_mds_raw_data,
+    cfd_mds_data,
+    faceLocations,
+    participants,
+    num_faces;
     function loadData() {
         password = prompt('password');
         $.post('./49f7cd18dc64f4c82563f45844202e3fa8b84653.php', {'password': password, 'page': 'datastore'})
@@ -9,48 +15,65 @@ $(document)
 function parseDatastore(response) {
     function parseRow(row) {
         var cols = row.split('\t');
-        return _.object(['face1_id', 'face2_id', 'face1_url', 'face2_url', 'similarity', 'confirmation'], row.split('\t'));
+        parsedrow = _.object(['face1_id', 'face2_id', 'face1_url', 'face2_url', 'similarity', 'confirmation'], row.split('\t'));
+        if(parsedrow['face1_url'] && parsedrow['face2_url']) {
+            parsedrow['face1_race'] = parsedrow['face1_url'].split('~dma/')[1][0] == 'B' ? 'black' : 'white';
+            parsedrow['face2_race'] = parsedrow['face2_url'].split('~dma/')[1][0] == 'B' ? 'black' : 'white';
+            parsedrow['face1_gender'] = parsedrow['face1_url'].split('~dma/')[1][1] == 'M' ? 'male' : 'female';
+            parsedrow['face2_gender'] = parsedrow['face2_url'].split('~dma/')[1][1] == 'M' ? 'male' : 'female';
+        }
+        return parsedrow;
     }
     var rows = $(response).text().split('\n');
-    console.log(rows);
-    var cfd_mds_data = rows.map(parseRow);
-    var loadEvent = $.Event('load.cfd_mds_data', {'cfd_mds_data': cfd_mds_data});
-    $(document).trigger(loadEvent);
+    cfd_mds_raw_data = rows.map(parseRow);
+    console.log(cfd_mds_raw_data);
     $.post('./49f7cd18dc64f4c82563f45844202e3fa8b84653.php', {'password': password, 'page': 'participants'})
-        .success(parseParticipants);
+        .success(mergeParticipantsWithDatastore);
     delete password;
-    return cfd_mds_data;
+    return cfd_mds_raw_data;
 }
-function parseParticipants(response) {
+function mergeParticipantsWithDatastore(response) {
     function parseRow(row) {
         var cols = row.split('\t');
-        return cols;
+        return _.object(['confirmation', 'participant_age',  'participant_gender', 'participant_zip', 'participant_race'], cols);
     }
     var rows = $(response).text().split('\n');
-    console.log(rows);
-    var participants = rows.map(parseRow);
+    var parsedrows = rows.map(parseRow);
+    participants = _.object(_.pluck(parsedrows, 'confirmation'), parsedrows);
+    function mergeDataAndParticipants(datarow, i) {
+        // Use the confrimation key to merge them
+        if(datarow) {
+            var confirmation = datarow['confirmation'];
+            return _.extend(datarow, participants[confirmation]);
+        }
+    }
+    cfd_mds_raw_data = cfd_mds_raw_data.map(mergeDataAndParticipants);
+    setFaceLocations();
+    return cfd_mds_raw_data;
+}
+function setFaceLocations() {
+    faceLocations = {};
+    var face_ids = _.pluck(cfd_mds_raw_data, 'face1_id').map(toInt);
+    var face_urls = _.pluck(cfd_mds_raw_data, 'face1_url');
+    num_faces = _.max(face_ids) + 1;
+    cfd_mds_raw_data.forEach(function(row) {
+        var face1_id = row['face1_id'],
+            face1_url = row['face1_url'],
+            similarity = row['similarity'],
+            confirmation = row['confirmation'];
+        if(face1_id >= 0 && face1_id < num_faces) {
+            faceLocations[face1_id] = face1_url;
+        }
+    });
+    var loadEvent = $.Event('load.cfd_mds_data', {'cfd_mds_data': cfd_mds_raw_data});
+    $(document).trigger(loadEvent);
+    return faceLocations;
 }
 function initialize(Event) {
     // Note that cfd_mds_data is global, as is num_faces
-    cfd_mds_raw_data = Event.cfd_mds_data;
     // cfd_mds_raw data will eventually be filtered.
-    cfd_mds_data = cfd_mds_raw_data;
-    var face_ids = _.pluck(cfd_mds_data, 'face1_id').map(toInt);
-    var face_urls = _.pluck(cfd_mds_data, 'face1_url');
-    num_faces = _.max(face_ids) + 1;
-    faceLocations = {};
-    cfd_mds_data.forEach(function(row) {
-        var face1_id = row['face1_id'],
-        face2_id = row['face2_id'],
-        face1_url = row['face1_url'],
-        face2_url = row['face2_url'],
-        similarity = row['similarity'],
-        confirmation = row['confirmation'];
-        if(face1_id >= 0 && face1_id < num_faces && face2_id >= 0 && face2_id < num_faces) {
-            faceLocations[face1_id] = face1_url;
-            faceLocations[face2_id] = face2_url;
-        }
-    });
+    dataFilter = function(row) {return true}
+    cfd_mds_data = cfd_mds_raw_data.filter(dataFilter);
     $('#show-general-information').on('click', showGeneralInformation);
     $('#show-similarity-heatmap').on('click', showSimilarityHeatmap);
     $('#show-classical-mds').on('click', showClassicalMDS);
@@ -136,7 +159,28 @@ function colorFromSimilarity(similarity) {
 
 // Organized Heat Map
 function showOrderedSimilarityHeatmap() {
+    function getClassicalMDSData() {
+        // Get the data from the python script
+        $.get('./2dlocations.txt')
+            .success(parseLocations);
+    }
+    function parseLocations(response) {
         
+    }
+    var grid = faces.map(function() {return faces.map(function() {return [];});});
+    cfd_mds_data.forEach(function(row) {
+        var face1_id = row['face1_id'],
+        face2_id = row['face2_id'],
+        face1_url = row['face1_url'],
+        face2_url = row['face2_url'],
+        similarity = row['similarity'];
+        included = true;
+        if(face1_id >= 0 && face1_id < num_faces && face2_id >= 0 && face2_id < num_faces) {
+            grid[toInt(row['face1_id'])][toInt(row['face2_id'])].push(toInt(row['similarity']));
+            faceLocations[face1_id] = face1_url;
+            faceLocations[face2_id] = face2_url;
+        }
+    });
 }
 
 // Classical MDS
@@ -176,8 +220,12 @@ function showClassicalMDS() {
 // General Information
 function showGeneralInformation() {
     $('#view').html($('#general-information').html());
-    var avg = average(_.pluck(cfd_mds_data, 'similarity').map(toInt));
-    $('.average-similarity').html((100 * avg | 0) / 100);
+    var avgsim = average(_.pluck(cfd_mds_data, 'similarity').map(toInt));
+    $('.average-similarity').html((100 * avgsim | 0) / 100);
+    var avgage = average(_.pluck(cfd_mds_data, 'participant_age').map(toInt));
+    $('.average-age').html((1 * avgage | 0) / 1);
+    $('.number-of-participants').html(_.keys(participants).length);
+    $('.number-of-comparisons').html(cfd_mds_data.length);
 }
 
 // Utility functions
