@@ -224,6 +224,7 @@ function showGeneralInformation() {
     $('.average-similarity').html((100 * avgsim | 0) / 100);
     var avgage = average(_.pluck(cfd_mds_data, 'participant_age').map(toInt));
     $('.average-age').html((1 * avgage | 0) / 1);
+    console.log(participants)
     $('.number-of-participants').html(_.keys(participants).length);
     $('.number-of-comparisons').html(cfd_mds_data.length);
 }
