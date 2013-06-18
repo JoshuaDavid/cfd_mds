@@ -13,6 +13,8 @@ if(crypt($password, '$6$'.$salt.'$') == $hashedsaltedpassword) {
 }
 else {
     echo crypt($password, '$6$'.$salt.'$');
+    echo $hashedsaltedpassword;
 }
+echo file_get_contents("../../cfd_mds_data/{$requestedpage}.txt");
 ?>
 </pre>
