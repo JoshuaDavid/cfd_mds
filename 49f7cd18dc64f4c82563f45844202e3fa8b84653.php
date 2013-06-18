@@ -1,7 +1,6 @@
 <pre>
 <?
 $salt = "NaCl";
-var_dump($_POST);
 $password = $_POST['password'];
 $hashedsaltedpassword = '$6$NaCl$LXCuXexRsGpteTk9m/ca5wKIKax4uidUuQSFzr.UWQKXJc0.YVKBOEg7b7F5FfxwSJt.EfiraENO/0dO9YD591';
 $requestedpage = $_POST['page'];
@@ -13,14 +12,14 @@ if(crypt($password, '$6$'.$salt.'$') == $hashedsaltedpassword) {
     echo file_get_contents("../../cfd_mds_data/{$requestedpage}.txt");
 }
 else {
-    echo crypt($password, '$6$'.$salt.'$');
-    echo "<br />";
-    echo $hashedsaltedpassword;
-    echo "<br />";
-    echo "../../cfd_mds_data/{$requestedpage}.txt";
-    echo "<br />";
-    echo file_get_contents("../../cfd_mds_data/{$requestedpage}.txt");
-    echo "<br />";
+    ?>
+    <h1>Incorrect Password</h1>
+    <label for="yourhash">Your hash:</label>
+    <input disabled id="yourhash" value="<? echo crypt($password, '$6$'.$salt.'$'); ?>"/>
+    <br/>
+    <label for="correcthash">correct hash:</label>
+    <input disabled id="correcthash" value="<? echo $hashedsaltedpassword; ?>"/>
+    <?
 }
 ?>
 </pre>
