@@ -1,3 +1,4 @@
+/*
 $(document)
     .on('ready', loadData)
     .on('load.cfd_mds_data', initialize)
@@ -234,4 +235,48 @@ function toInt(i) { return i | 0; }
 function average(list) {
     if(!list.length) return null;
     return list.reduce(function(a,b){return a+b})/list.length;
+}
+
+*/
+// Functions starting with _p_ are promises
+function _p_getData() {
+    var deferred = new $.Deferred();
+    var promise = deferred.promise();
+    var cfd_mds_data = getDataFromLocalStorage();
+    if(cfd_mds_data) {
+        deferred.resolve(cfd_mds_data);
+    }
+    else {
+        
+    }
+    return promise;
+}
+function getDataFromLocalStorage() {
+    var cfd_mds_data = JSON.parse(localStorage.getItem("cfd_mds_data"));
+    return cfd_mds_data;
+}
+function _p_getPassord() {
+    var deferred = new $.Deferred();
+    var promise = deferred.promise();
+    var $pwform = $('<form class="password-holder"/>');
+    var $label = $('<label for="password">Enter your password</label>');
+    var $input = $('<input type="password" id="password"/>');
+    var $submit = $('<div><button type="submit">Save Password</button></div>');
+    $pwform
+        .append($label)
+        .append($input)
+        .append($submit)
+        .appendTo($("body"))
+        .css({
+            "z-index": "1",
+            "background": "white",
+            "height": "10em",
+            "width": "25em",
+        });
+    $pwform.submit(function(e) {
+        e.preventDefault();
+        console.log($input.val());
+        deferred.resolve($input.val());
+    })
+    return promise;
 }
